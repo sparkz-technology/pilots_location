@@ -10,4 +10,4 @@
 
 # Video
 
-[![Watch the video](Screenshot%202024-08-24%20225233.png)](https://github.com/sparkz-technology/pilots_location/blob/main/vite.mp4)
+[![Watch the video](Screenshot%202024-08-24%20225233.png)](https://raw.githubusercontent.com/sparkz-technology/pilots_location/blob/main/vite.mp4)
