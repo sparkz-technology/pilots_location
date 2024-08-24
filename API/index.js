@@ -10,15 +10,21 @@ const PORT = process.env.PORT || 5000;
 
 connectDB();
 
-app.use(cors({
-  origin: 'https://pilots-location.vercel.app', 
-}));
+app.use(
+  cors({
+    origin: "https://pilots-location.vercel.app",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
-app.options('*', cors({
-  origin: 'https://pilots-location.vercel.app',
-}));
+app.options(
+  "*",
+  cors({
+    origin: "https://pilots-location.vercel.app",
+  })
+);
 
 app.use("/api/pilots", pilotRoutes);
 app.use((req, res) => {
