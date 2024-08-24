@@ -38,10 +38,12 @@ const App = () => {
     getAdminLocation();
   }, []);
 
+
   const fetchPilots = useCallback(async (val) => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const { locationLat, locationLng, experience, range } = val
     try {
-      const response = await axios.post('http://localhost:5000/api/pilots', {
+      const response = await axios.post(`${apiUrl}pilots`, {
         latitude: locationLat,
         longitude: locationLng,
         experience: Number(experience),
@@ -60,9 +62,20 @@ const App = () => {
   };
 
   const myLocation = () => {
-    setShowLocation({ lat: adminLocation.lat, lng: adminLocation.lng })
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setAdminLocation({ lat: latitude, lng: longitude });
+          setShowLocation({ lat: latitude, lng: longitude })
+          setLocation({ lat: latitude, lng: longitude });
+        },
+        (error) => {
+          console.error('Error getting geolocation:', error);
+        }
+      );
+    }
   }
-
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4 text-green-700">Drone Pilot Map</h1>
