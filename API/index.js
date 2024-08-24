@@ -12,12 +12,14 @@ connectDB();
 
 app.use(cors({
   origin: '*', 
+   credentials: true, 
 }));
 
 app.use(express.json());
 
 app.options('*', cors({
   origin: '*',
+   credentials: true, 
 }));
 
 app.use("/api/pilots", pilotRoutes);
