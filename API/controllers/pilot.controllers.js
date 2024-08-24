@@ -18,7 +18,7 @@ export const getPilots = async (req, res) => {
         $geoNear: {
           near: { type: "Point", coordinates: [longitude, latitude] },
           distanceField: "distance",
-          maxDistance: range * 1000,
+          maxDistance: range * 100,
           spherical: true,
         },
       },

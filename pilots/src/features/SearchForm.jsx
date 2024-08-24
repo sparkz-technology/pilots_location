@@ -29,19 +29,20 @@ const SearchForm = ({ location, onFetchPilots }) => (
             locationLat: location.lat ?? "",
             locationLng: location?.lng ?? "",
             experience: 0,
-            range: 10 // default range
+            range: 25 // default range
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
             onFetchPilots(values);
         }}
     >
-        {({ dirty }) => (
-            <Form key={dirty} className="bg-yellow-100 p-4 rounded-lg shadow-lg w-full md:w-1/3">
+        {({ isSubmitting }) => (
+            <Form className="bg-yellow-100 p-4 rounded-lg shadow-lg w-full md:w-1/3">
                 <div className="grid grid-cols-1 gap-4 mb-4">
                     <label className="flex flex-col">
                         Latitude:
                         <Field
+                            disabled={isSubmitting}
                             type="number"
                             name="locationLat"
                             className="mt-1 p-2 border border-gray-300 rounded"
@@ -51,6 +52,7 @@ const SearchForm = ({ location, onFetchPilots }) => (
                     <label className="flex flex-col">
                         Longitude:
                         <Field
+                            disabled={isSubmitting}
                             type="number"
                             name="locationLng"
                             className="mt-1 p-2 border border-gray-300 rounded"
@@ -60,6 +62,7 @@ const SearchForm = ({ location, onFetchPilots }) => (
                     <label className="flex flex-col">
                         Experience (years):
                         <Field
+                            disabled={isSubmitting}
                             type="number"
                             name="experience"
                             className="mt-1 p-2 border border-gray-300 rounded"
@@ -69,6 +72,7 @@ const SearchForm = ({ location, onFetchPilots }) => (
                     <label className="flex flex-col">
                         Range (km):
                         <Field
+                            disabled={isSubmitting}
                             type="number"
                             name="range"
                             className="mt-1 p-2 border border-gray-300 rounded"
@@ -77,10 +81,12 @@ const SearchForm = ({ location, onFetchPilots }) => (
                     </label>
                 </div>
                 <button
+                    disabled={isSubmitting}
                     type="submit"
-                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 disabled:cursor-not-allowed"
                 >
-                    Search Pilots
+                    {isSubmitting ? 'Loading'
+                        : 'Search Pilots'}
                 </button>
             </Form>
         )}

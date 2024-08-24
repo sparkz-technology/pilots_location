@@ -13,9 +13,8 @@ const App = () => {
   const [pilots, setPilots] = useState([]);
   const [adminLocation, setAdminLocation] = useState({ lat: 51.505, lng: -0.09 });
   const [location, setLocation] = useState({ lat: 51.505, lng: -0.09 });
-  const [experience, setExperience] = useState(0);
-  const [range, setRange] = useState(100);
   const [showSearch, setShowSearch] = useState(true);
+  const [showLocation, setShowLocation] = useState({ lat: 51.505, lng: -0.09 })
 
   useEffect(() => {
     const getAdminLocation = async () => {
@@ -24,9 +23,8 @@ const App = () => {
           (position) => {
             const { latitude, longitude } = position.coords;
             setAdminLocation({ lat: latitude, lng: longitude });
+            setShowLocation({ lat: latitude, lng: longitude })
             setLocation({ lat: latitude, lng: longitude });
-            setRange(100);
-            setExperience(0);
           },
           (error) => {
             console.error('Error getting geolocation:', error);
@@ -57,10 +55,13 @@ const App = () => {
   }, []);
 
 
-
   const handleLocatePilot = (pilot) => {
-    setAdminLocation({ lat: pilot.coordinates[1], lng: pilot.coordinates[0] });
+    setShowLocation({ lat: pilot.coordinates[1], lng: pilot.coordinates[0] });
   };
+
+  const myLocation = () => {
+    setShowLocation({ lat: adminLocation.lat, lng: adminLocation.lng })
+  }
 
   return (
     <div className="container mx-auto p-4">
@@ -69,8 +70,6 @@ const App = () => {
         {showSearch ? (
           <SearchForm
             location={location}
-            experience={experience}
-            range={range}
             onFetchPilots={fetchPilots}
           />
         ) : (
@@ -80,7 +79,12 @@ const App = () => {
             onBack={() => setShowSearch(true)}
           />
         )}
-        <div className="w-full md:w-2/3">
+        <div className="w-full md:w-2/3 relative">
+          <button
+            onClick={myLocation}
+            className='absolute z-[99999] top-1 right-1 bg-blue-500 ring-1 text-white py-2 px-1 rounded-xl'>
+            Current location
+          </button>
           <MapContainer center={[adminLocation.lat, adminLocation.lng]} zoom={13} style={{ height: "500px", width: "100%" }}>
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -109,7 +113,7 @@ const App = () => {
                 </Tooltip>
               </Marker>
             ))}
-            <MapUpdater center={adminLocation} />
+            <MapUpdater center={showLocation} />
           </MapContainer>
         </div>
       </div>
