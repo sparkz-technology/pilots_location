@@ -53,6 +53,9 @@ const App = () => {
       setShowSearch(false);
     } catch (error) {
       console.error('Error fetching pilots:', error);
+    } finally {
+      setShowSearch(false);
+
     }
   }, []);
 
