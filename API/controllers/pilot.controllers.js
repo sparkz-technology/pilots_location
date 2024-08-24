@@ -21,7 +21,7 @@ export const getPilots = async (req, res) => {
           maxDistance: range * 1000,
           spherical: true,
         },
-      },
+      }, //
       {
         $match: {
           workExperience: { $gte: experience },
