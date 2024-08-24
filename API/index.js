@@ -16,6 +16,10 @@ app.use(cors({
 
 app.use(express.json());
 
+app.options('*', cors({
+  origin: 'https://pilots-location.vercel.app',
+}));
+
 app.use("/api/pilots", pilotRoutes);
 app.use((req, res) => {
   res.status(404).json({ error: "Route not found" });
